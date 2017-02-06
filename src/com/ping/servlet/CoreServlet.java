@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ping.service.CoreService;
 import com.ping.utils.SignUtil;
 
 /**
@@ -43,7 +44,16 @@ public class CoreServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		// 将请求、响应的编码均设置为UTF-8（防止中文乱码）  
+		req.setCharacterEncoding("UTF-8");  
+		resp.setCharacterEncoding("UTF-8");
+		
+		// 调用核心业务类接收消息、处理消息  
+        String respMessage = CoreService.processRequest(req);  
+          
+        // 响应消息  
+        PrintWriter out = resp.getWriter();  
+        out.print(respMessage);  
+        out.close();  
 	}
 }

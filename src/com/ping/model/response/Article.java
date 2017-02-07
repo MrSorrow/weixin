@@ -7,12 +7,24 @@ package com.ping.model.response;
  * Url			点击图文消息跳转链接
  * @author Mr.sorrow
  */
-public class Artical {
+public class Article {
 	
 	private String Title;
 	private String Description;
 	private String PicUrl;
 	private String Url;
+	
+	public Article() {
+		super();
+	}
+
+	public Article(String title, String description, String picUrl, String url) {
+		super();
+		Title = title;
+		Description = description;
+		PicUrl = picUrl;
+		Url = url;
+	}
 	
 	public String getTitle() {
 		return Title;

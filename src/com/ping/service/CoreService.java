@@ -1,12 +1,14 @@
 package com.ping.service;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ping.model.response.TextMessage;
+import com.ping.model.response.Article;
 import com.ping.utils.MessageUtil;
+import com.ping.utils.SendMessageUtil;
 
 /**
  * 核心服务类
@@ -18,76 +20,85 @@ public class CoreService {
 	 * @param request 请求消息
 	 * @return respMessage 响应文本消息
 	 */
-	public static String processRequest(HttpServletRequest request) {  
-        String respMessage = null;  
-        try {  
-            // 默认返回的文本消息内容  
-            String respContent = "请求处理异常，请稍候尝试！";  
-  
-            // xml请求解析  
-            Map<String, String> requestMap = MessageUtil.parseXml(request);  
-  
-            // 发送方帐号（open_id）  
-            String fromUserName = requestMap.get("FromUserName");  
-            // 公众帐号  
-            String toUserName = requestMap.get("ToUserName");  
-            // 消息类型  
-            String msgType = requestMap.get("MsgType");  
-  
-            // 回复文本消息  
-            TextMessage textMessage = new TextMessage();  
-            textMessage.setToUserName(fromUserName);  
-            textMessage.setFromUserName(toUserName);  
-            textMessage.setCreateTime(new Date().getTime());  
-            textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);  
-            textMessage.setFuncFlag(0);  
-  
-            // 文本消息  
-            if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {  
-                respContent = "您发送的是文本消息！";  
-            }  
-            // 图片消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {  
-                respContent = "您发送的是图片消息！";  
-            }  
-            // 地理位置消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {  
-                respContent = "您发送的是地理位置消息！";  
-            }  
-            // 链接消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {  
-                respContent = "您发送的是链接消息！";  
-            }  
-            // 音频消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {  
-                respContent = "您发送的是音频消息！";  
-            }  
-            // 事件推送  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {  
-                // 事件类型  
-                String eventType = requestMap.get("Event");  
-                // 订阅  
-                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {  
-                    respContent = "谢谢您的关注！";  
-                }  
-                // 取消订阅  
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {  
-                    // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息  
-                }  
-                // 自定义菜单点击事件  
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {  
-                    // TODO 自定义菜单权没有开放，暂不处理该类消息  
-                }  
-            }else {
-            	respContent = "WTF";  
-			}  
-  
-            textMessage.setContent(respContent);  
-            respMessage = MessageUtil.textMessageToXml(textMessage);  
-        } catch (Exception e) {  
-            e.printStackTrace(); 
-        }  
-  
-        return respMessage;  
-    }  
+	public static String processRequest(HttpServletRequest request) {
+		String respMessage = null;
+		try {
+			// xml请求解析
+			Map<String, String> requestMap = MessageUtil.parseXml(request);
+			// 发送方帐号（open_id）
+			String fromUserName = requestMap.get("FromUserName");
+			// 公众帐号
+			String toUserName = requestMap.get("ToUserName");
+			// 消息类型
+			String msgType = requestMap.get("MsgType");
+
+			// 文本消息
+			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
+				switch (requestMap.get("Content")) {
+					case "单图文消息":
+						Article article = new Article("单图文消息...", "Android新特性介绍，ConstraintLayout完全解析", "http://img.blog.csdn.net/20170131133515600?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ3VvbGluX2Jsb2c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast", "http://blog.csdn.net/guolin_blog/article/details/53122387");
+						List<Article> singleArticles = new ArrayList<Article>();
+						singleArticles.add(article);
+						respMessage = SendMessageUtil.sendNewsMessage(singleArticles, toUserName, fromUserName);
+						System.out.println("-----发送单图文成功-----");
+						break;
+						
+					case "多图文消息":
+						Article article1 = new Article("多图文消息...", "Android新特性介绍，ConstraintLayout完全解析", "http://img.blog.csdn.net/20170131133515600?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ3VvbGluX2Jsb2c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast", "http://blog.csdn.net/guolin_blog/article/details/53122387");
+						Article article2 = new Article("多图文消息...", "Android新特性介绍，ConstraintLayout完全解析", "http://img.blog.csdn.net/20170131133515600?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ3VvbGluX2Jsb2c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast", "http://blog.csdn.net/guolin_blog/article/details/53122387");
+						Article article3 = new Article("多图文消息...", "Android新特性介绍，ConstraintLayout完全解析", "http://img.blog.csdn.net/20170131133515600?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ3VvbGluX2Jsb2c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast", "http://blog.csdn.net/guolin_blog/article/details/53122387");
+						Article article4 = new Article("多图文消息...", "Android新特性介绍，ConstraintLayout完全解析", "http://img.blog.csdn.net/20170131133515600?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZ3VvbGluX2Jsb2c=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast", "http://blog.csdn.net/guolin_blog/article/details/53122387");
+						List<Article> moreArticles = new ArrayList<Article>();
+						moreArticles.add(article1);
+						moreArticles.add(article2);
+						moreArticles.add(article3);
+						moreArticles.add(article4);
+						respMessage = SendMessageUtil.sendNewsMessage(moreArticles, toUserName, fromUserName);
+						System.out.println("-----发送多图文成功-----");
+						break;
+	
+					default:
+						String defaultMsg = "功能菜单：输入(不包含序号)\n1.单图文消息\n2.多图文消息\n...";
+						respMessage = SendMessageUtil.sendTextMessage(defaultMsg, toUserName, fromUserName);
+						break;
+				}
+			}
+			// 图片消息
+			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
+			}
+			// 地理位置消息
+			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {
+			}
+			// 链接消息
+			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {
+			}
+			// 音频消息
+			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {
+			}
+			// 事件推送
+			else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
+				// 事件类型
+				String eventType = requestMap.get("Event");
+				// 订阅
+				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
+					// 回复文本消息
+					String respContent = "欢迎关注，微信项目地址：" + "\n<a href='https://github.com/MrSorrow/weixin'>--点此跳转--</a>";
+					respMessage = SendMessageUtil.sendTextMessage(respContent, toUserName, fromUserName);
+					System.out.println("-----关注成功-----");
+				}
+				// 取消订阅
+				else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
+					//取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
+				}
+				// 自定义菜单点击事件
+				else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
+					//自定义菜单权没有开放，暂不处理该类消息
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return respMessage;
+	}
 }

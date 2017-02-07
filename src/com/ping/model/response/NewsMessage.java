@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class NewsMessage extends BaseMessage {
 	
-	private List<Artical> Articals;
+	private List<Article> Articles;
 	private int ArticleCount;
 	
-	public List<Artical> getArticals() {
-		return Articals;
+	public List<Article> getArticals() {
+		return Articles;
 	}
-	public void setArticals(List<Artical> articals) {
-		Articals = articals;
+	public void setArticals(List<Article> articles) {
+		Articles = articles;
 	}
 	public int getArticleCount() {
 		return ArticleCount;

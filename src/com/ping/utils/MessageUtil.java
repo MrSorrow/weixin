@@ -12,7 +12,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.ping.model.response.Artical;
+import com.ping.model.response.Article;
 import com.ping.model.response.MusicMessage;
 import com.ping.model.response.NewsMessage;
 import com.ping.model.response.TextMessage;
@@ -147,7 +147,7 @@ public class MessageUtil {
      */  
     public static String newsMessageToXml(NewsMessage newsMessage) {  
         xstream.alias("xml", newsMessage.getClass());  
-        xstream.alias("item", new Artical().getClass());  
+        xstream.alias("item", new Article().getClass());  
         return xstream.toXML(newsMessage);  
     }  
   

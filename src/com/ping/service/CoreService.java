@@ -3,6 +3,7 @@ package com.ping.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -117,8 +118,8 @@ public class CoreService {
                         respContent = "Q友圈菜单项被点击！";  
                     } else if (eventKey.equals("32")) {  
                         respContent = "电影排行榜菜单项被点击！";  
-                    } else if (eventKey.equals("33")) {  
-                        respContent = "幽默笑话菜单项被点击！";  
+                    } else if (eventKey.equals("33")) { 
+                        respContent = LaughService.getDataContent(); 
                     }
                     
 					respMessage = SendMessageUtil.sendTextMessage(respContent, toUserName, fromUserName);

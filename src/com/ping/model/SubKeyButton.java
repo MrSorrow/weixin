@@ -4,7 +4,7 @@ package com.ping.model;
  * ×Ó²Ëµ¥°´Å¥
  * @author Mr.sorrow
  */
-public class SubButton extends Button {
+public class SubKeyButton extends Button {
 	private String type;  
     private String key;  
   

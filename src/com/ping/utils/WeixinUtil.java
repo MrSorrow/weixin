@@ -65,7 +65,7 @@ public class WeixinUtil {
 	 * ªÒ»°access_token 
 	 * @param appid ∆æ÷§ 
 	 * @param appsecret √‹‘ø 
-	 * @return 
+	 * @return AccessToken
 	 */  
 	public static AccessToken getAccessToken(String appid, String appsecret) {  
 	    AccessToken accessToken = null;  

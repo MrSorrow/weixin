@@ -83,7 +83,7 @@ public class CoreService {
 				// 订阅
 				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
 					// 回复文本消息
-					String respContent = "欢迎关注，微信项目地址：" + "\n<a href='https://github.com/MrSorrow/weixin'>--点此跳转--</a>";
+					String respContent = "欢迎关注，微信项目地址：" + "\n<a href='https://github.com/MrSorrow/weixin'>---点此跳转---</a>";
 					respMessage = SendMessageUtil.sendTextMessage(respContent, toUserName, fromUserName);
 					System.out.println("-----关注成功-----");
 				}
@@ -97,29 +97,20 @@ public class CoreService {
 					String respContent = "";  
 					  
                     if (eventKey.equals("11")) {  
-                        respContent = "天气预报菜单项被点击！";  
+                    	respContent = new WeatherService().getDataContent("上海");
                     } else if (eventKey.equals("12")) {  
-                        respContent = "公交查询菜单项被点击！";  
                     } else if (eventKey.equals("13")) {  
-                        respContent = "周边搜索菜单项被点击！";  
                     } else if (eventKey.equals("14")) {  
-                        respContent = "历史上的今天菜单项被点击！";  
-                    } else if (eventKey.equals("21")) {  
-                        respContent = "歌曲点播菜单项被点击！";  
+                    } else if (eventKey.equals("21")) { 
+                    	respContent = new LaughService().getDataContent(); 
                     } else if (eventKey.equals("22")) {  
-                        respContent = "经典游戏菜单项被点击！";  
                     } else if (eventKey.equals("23")) {  
-                        respContent = "美女电台菜单项被点击！";  
                     } else if (eventKey.equals("24")) {  
-                        respContent = "人脸识别菜单项被点击！";  
                     } else if (eventKey.equals("25")) {  
-                        respContent = "聊天唠嗑菜单项被点击！";  
                     } else if (eventKey.equals("31")) {  
-                        respContent = "Q友圈菜单项被点击！";  
                     } else if (eventKey.equals("32")) {  
-                        respContent = "电影排行榜菜单项被点击！";  
                     } else if (eventKey.equals("33")) { 
-                        respContent = LaughService.getDataContent(); 
+                        
                     }
                     
 					respMessage = SendMessageUtil.sendTextMessage(respContent, toUserName, fromUserName);

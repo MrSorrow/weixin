@@ -1,8 +1,5 @@
 package com.ping.main;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ping.model.AccessToken;
 import com.ping.model.Button;
 import com.ping.model.MainButton;
@@ -17,8 +14,6 @@ import com.ping.utils.WeixinUtil;
  */
 public class MenuManager {
 
-	private static Logger log = LoggerFactory.getLogger(MenuManager.class);  
-	
 	public static void main(String[] args) {
 		// 第三方用户唯一凭证  
         //String appId = "wx68439db5d1eefa03";  
@@ -73,7 +68,7 @@ public class MenuManager {
         btn15.setKey("15");  
         
         SubKeyButton btn21 = new SubKeyButton();  
-        btn21.setName("歌曲点播");  
+        btn21.setName("轻松一刻");  
         btn21.setType("click");  
         btn21.setKey("21");  
   
@@ -108,7 +103,7 @@ public class MenuManager {
         btn32.setKey("32");  
   
         SubKeyButton btn33 = new SubKeyButton();  
-        btn33.setName("幽默笑话");  
+        btn33.setName("歌曲点播");  
         btn33.setType("click");  
         btn33.setKey("33");  
         
